@@ -1,0 +1,55 @@
+Sending Data from One Activity to Another using Intent
+
+// FirstActivity.kt
+import android.content.Intent
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+
+class FirstActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        // ... (other initialization code)
+
+        // Function to initiate the navigation to the SecondActivity
+        private fun navigateToSecondActivity() {
+            val dataToPass = "Hello, Second Activity!" // The state/data to be transitioned
+
+            val intent = Intent(this, SecondActivity::class.java).apply {
+                putExtra("key", dataToPass) // Attaching the data to the Intent with a key
+            }
+            startActivity(intent) // Starting the SecondActivity with the Intent containing the data
+        }
+    }
+}
+Receiving Data in SecondActivity
+
+// SecondActivity.kt
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+
+class SecondActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_second)
+
+        // Retrieving the data from the Intent
+        intent.getStringExtra("key")?.let { receivedData ->
+            // Now the receivedData contains the state/data transitioned from the FirstActivity
+            // Use the data as needed in the SecondActivity
+            // Example: Log or display the received data
+            Log.d("SecondActivity", "Received data: $receivedData")
+        }
+    }
+}
+
+Sending Data from FirstActivity:
+
+In the FirstActivity, the navigateToSecondActivity function is triggered, initiating the transition to the SecondActivity. The data to be transitioned (in this case, the string "Hello, Second Activity!") is prepared and stored in the variable dataToPass.
+An Intent is created to specify the transition from the FirstActivity to the SecondActivity. The data to be transitioned is attached to the Intent using putExtra, where the string "Hello, Second Activity!" is associated with the key "key".
+The startActivity(intent) method executes the transition, bringing the SecondActivity to the foreground, with the associated Intent containing the data to be transferred.
+Receiving Data in SecondActivity:
+
+In the onCreate method of the SecondActivity, the intent.getStringExtra("key") retrieves the data that was attached to the Intent in the FirstActivity. The received data is stored in the receivedData variable.
+The received data can be utilized as needed within the SecondActivity to manage its state or update the user interface based on the received data.
+In summary, this Kotlin code example illustrates the state transition by preparing, attaching, and passing data from the FirstActivity to the SecondActivity using an Intent. Upon reception, the data becomes available for utilization within the SecondActivity, enabling the management of its state or user interface based on the received data.
